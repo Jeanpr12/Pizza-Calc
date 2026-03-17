@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizza Engineer App</title>
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/192px-Eq_it-na_pizza-margherita_sep2005_sml.jpg">
+    <title>Pizza Engineer PWA</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/192px-Eq_it-na_pizza-margherita_sep2005_sml.jpg">
     <style>
         body { font-family: -apple-system, sans-serif; padding: 15px; max-width: 600px; margin: auto; background-color: #f4f4f9; color: #333; }
         .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px; }
         .controls { display: flex; gap: 10px; margin-bottom: 15px; }
-        button { flex: 1; padding: 10px; cursor: pointer; border: 1px solid #ccc; border-radius: 5px; background: #e9ecef; }
+        button { flex: 1; padding: 10px; cursor: pointer; border: 1px solid #ccc; border-radius: 5px; background: #e9ecef; font-weight: bold; }
         button.active { background: #007bff; color: white; border-color: #007bff; }
         label { font-weight: bold; display: block; margin-top: 10px; font-size: 14px; }
-        select, input { width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        .row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #eee; font-size: 15px; }
-        .step { margin-bottom: 10px; font-size: 14px; line-height: 1.4; }
+        select, input { width: 100%; padding: 10px; margin-top: 4px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
+        .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 15px; }
+        .row:last-child { border-bottom: none; }
+        .step { margin-bottom: 12px; font-size: 14px; line-height: 1.5; color: #444; }
+        h3 { margin-top: 0; color: #222; border-left: 4px solid #007bff; padding-left: 10px; }
+        .temp-val { color: #007bff; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -70,8 +73,8 @@
 
     <div class="card">
         <h3 id="hdrDay2">Day 2: Final Dough Integration</h3>
-        <div class="step"><strong id="txtIng2">Ingredients:</strong> <span id="txtBigaFermented">Fermented Biga</span>, <span id="finalWater">250</span>g (<span id="txtColdWater">Cold Water</span>), <span id="finalSalt">30</span>g (<span id="txtSaltDay2">Salt</span>).</div>
-        <div class="step" id="step2_1">1. Add biga to mixer. Add roughly half the remaining water. Mix on low for 5 mins.</div>
+        <div class="step"><strong id="txtIng2">Ingredients:</strong> <span id="txtBigaFermented">Fermented Biga</span>, <span id="finalWater">250</span>g (<span id="txtColdWater">Ice Cold Water</span>), <span id="finalSalt">30</span>g (<span id="txtSaltDay2">Salt</span>).</div>
+        <div class="step" id="step2_1">1. Add biga to mixer. Add roughly half the remaining ICE COLD water. Mix on low for 5 mins.</div>
         <div class="step" id="step2_2">2. Add salt and mix on medium-low.</div>
         <div class="step" id="step2_3">3. Slowly drizzle remaining water over 10 minutes until absorbed.</div>
         <div class="step" id="step2_4">4. Rest bulk dough for 1 hour at room temp.</div>
@@ -86,28 +89,26 @@
             en: {
                 lblFlour: "Total Flour (g):", lblFlourType: "Flour Profile:", lblSaltType: "Salt Type:", lblYeastType: "Yeast Type:",
                 hdrFormula: "Total Formula", txtFlour: "Flour:", txtWater: "Total Water:", txtSalt: "Salt (3%):", txtYeast: "Yeast:",
-                hdrDay1: "Day 1: Biga Phase", txtIng1: "Ingredients:", txtFlourBiga: "Flour", txtWaterBiga: "Water", txtYeastBiga: "Yeast",
-                hdrDay2: "Day 2: Final Dough Integration", txtIng2: "Ingredients:", txtBigaFermented: "Fermented Biga", txtColdWater: "Cold Water", txtSaltDay2: "Salt",
-                step1_1_idy: "1. Mix flour, water, and yeast until dry, shaggy clumps form. Do not knead.",
-                step1_1_ady: "1. Dissolve ADY in a small splash of warm water first. Mix with remaining flour and water until shaggy clumps form. Do not knead.",
-                step2_2_fine: "2. Add salt and mix on medium-low.",
-                step2_2_kosher: "2. Add kosher salt (pre-dissolve in a splash of the water if possible, as larger crystals tear gluten) and mix on medium-low.",
-                step2_3: "3. Slowly drizzle remaining water over 10 minutes until absorbed.",
+                hdrDay1: "Day 1: Biga Phase", txtIng1: "Ingredients:", txtFlourBiga: "Flour", txtWaterBiga: "Water (Room Temp)", txtYeastBiga: "Yeast",
+                hdrDay2: "Day 2: Final Dough Integration", txtIng2: "Ingredients:", txtBigaFermented: "Fermented Biga", txtColdWater: "Ice Cold Water", txtSaltDay2: "Salt",
+                step1_1_idy: "1. Mix flour, water, and yeast until dry, shaggy clumps form. Do not knead into a ball.",
+                step1_1_ady: "1. Activation Required: Dissolve ADY in a small splash of lukewarm water first. Then mix with remaining flour and water until shaggy clumps form.",
+                step2_2_fine: "2. Add sea salt and mix on medium-low.",
+                step2_2_kosher: "2. Add kosher salt (Pre-dissolve in a splash of water if possible, as large crystals can tear the gluten web) and mix on medium-low.",
                 step2_4: "4. Rest bulk dough for 1 hour at room temp.",
-                step2_5: "5. Divide into portions, shape tightly, proof 4-6 hours at room temp before baking."
+                step2_5: "5. Divide into portions (275g), shape tightly, and proof 4-6 hours at room temp before baking."
             },
             es: {
                 lblFlour: "Harina Total (g):", lblFlourType: "Perfil de Harina:", lblSaltType: "Tipo de Sal:", lblYeastType: "Tipo de Levadura:",
                 hdrFormula: "Fórmula Total", txtFlour: "Harina:", txtWater: "Agua Total:", txtSalt: "Sal (3%):", txtYeast: "Levadura:",
-                hdrDay1: "Día 1: Fase Biga", txtIng1: "Ingredientes:", txtFlourBiga: "Harina", txtWaterBiga: "Agua", txtYeastBiga: "Levadura",
-                hdrDay2: "Día 2: Integración Final de la Masa", txtIng2: "Ingredientes:", txtBigaFermented: "Biga Fermentada", txtColdWater: "Agua Fría", txtSaltDay2: "Sal",
+                hdrDay1: "Día 1: Fase Biga", txtIng1: "Ingredientes:", txtFlourBiga: "Harina", txtWaterBiga: "Agua (Temp Amb)", txtYeastBiga: "Levadura",
+                hdrDay2: "Día 2: Integración Final", txtIng2: "Ingredientes:", txtBigaFermented: "Biga Fermentada", txtColdWater: "Agua Helada", txtSaltDay2: "Sal",
                 step1_1_idy: "1. Mezcle la harina, el agua y la levadura hasta que se formen grumos secos. No amasar.",
-                step1_1_ady: "1. Disuelva la levadura ADY en un chorrito de agua tibia primero. Mezcle con la harina y el agua restante hasta formar grumos. No amasar.",
-                step2_2_fine: "2. Agregue la sal y mezcle a velocidad media-baja.",
-                step2_2_kosher: "2. Agregue la sal kosher (predisuelta en un chorrito de agua si es posible, los cristales grandes rompen el gluten) y mezcle a velocidad media-baja.",
-                step2_3: "3. Rocíe lentamente el agua restante durante 10 minutos hasta que se absorba.",
+                step1_1_ady: "1. Activación Necesaria: Disuelva la levadura ADY en un chorrito de agua tibia primero. Luego mezcle con la harina y agua restante hasta formar grumos.",
+                step2_2_fine: "2. Agregue la sal marina y mezcle a velocidad media-baja.",
+                step2_2_kosher: "2. Agregue la sal kosher (Predisuélvala en un poco de agua si es posible, ya que los cristales grandes rompen el gluten) y mezcle a velocidad media-baja.",
                 step2_4: "4. Repose la masa en bloque durante 1 hora a temperatura ambiente.",
-                step2_5: "5. Divida en porciones, forme bolas apretadas, fermente 4-6 horas a temp. ambiente antes de hornear."
+                step2_5: "5. Divida en porciones (275g), forme bolas apretadas, fermente 4-6 horas a temp. ambiente antes de hornear."
             }
         };
 
@@ -128,32 +129,14 @@
 
         function applyText() {
             const t = dict[currentLang];
-            document.getElementById('lblFlour').innerText = t.lblFlour;
-            document.getElementById('lblFlourType').innerText = t.lblFlourType;
-            document.getElementById('lblSaltType').innerText = t.lblSaltType;
-            document.getElementById('lblYeastType').innerText = t.lblYeastType;
-            document.getElementById('hdrFormula').innerText = t.hdrFormula;
-            document.getElementById('txtFlour').innerText = t.txtFlour;
-            document.getElementById('txtWater').innerText = t.txtWater;
-            document.getElementById('txtSalt').innerText = t.txtSalt;
-            document.getElementById('txtYeast').innerText = t.txtYeast;
-            document.getElementById('hdrDay1').innerText = t.hdrDay1;
-            document.getElementById('txtIng1').innerText = t.txtIng1;
-            document.getElementById('txtFlourBiga').innerText = t.txtFlourBiga;
-            document.getElementById('txtWaterBiga').innerText = t.txtWaterBiga;
-            document.getElementById('txtYeastBiga').innerText = t.txtYeastBiga;
-            document.getElementById('hdrDay2').innerText = t.hdrDay2;
-            document.getElementById('txtIng2').innerText = t.txtIng2;
-            document.getElementById('txtBigaFermented').innerText = t.txtBigaFermented;
-            document.getElementById('txtColdWater').innerText = t.txtColdWater;
-            document.getElementById('txtSaltDay2').innerText = t.txtSaltDay2;
-            
-            document.getElementById('step2_3').innerText = t.step2_3;
-            document.getElementById('step2_4').innerText = t.step2_4;
-            document.getElementById('step2_5').innerText = t.step2_5;
+            Object.keys(t).forEach(id => {
+                let el = document.getElementById(id);
+                if (el) el.innerText = t[id];
+            });
         }
 
         function calculate() {
+            const t = dict[currentLang];
             let flour = parseFloat(document.getElementById('flourAmount').value) || 0;
             let hydration = parseFloat(document.getElementById('flourType').value);
             let yeastData = document.getElementById('yeastType').value.split('_');
@@ -164,58 +147,47 @@
             let totalWater = flour * hydration;
             let salt = flour * 0.03;
             let yeast = flour * yeastRatio;
-            
             let bigaWater = flour * 0.45;
             let finalWater = totalWater - bigaWater;
             
-            // Output Math
+            // Values
             document.getElementById('outFlour').innerText = flour.toFixed(0) + "g";
             document.getElementById('outWater').innerText = totalWater.toFixed(0) + "g";
             document.getElementById('outSalt').innerText = salt.toFixed(1) + "g";
             document.getElementById('outYeast').innerText = yeast.toFixed(2) + "g";
-            
             document.getElementById('bigaFlour').innerText = flour.toFixed(0);
             document.getElementById('bigaWater').innerText = bigaWater.toFixed(0);
             document.getElementById('bigaYeast').innerText = yeast.toFixed(2);
             document.getElementById('finalWater').innerText = finalWater.toFixed(0);
             document.getElementById('finalSalt').innerText = salt.toFixed(1);
 
-            // Output Dynamic Instructions
-            const t = dict[currentLang];
-            
-            if(yeastCategory === 'ady') {
-                document.getElementById('step1_1').innerText = t.step1_1_ady;
-            } else {
-                document.getElementById('step1_1').innerText = t.step1_1_idy;
-            }
+            // Dynamic Step Logic
+            document.getElementById('step1_1').innerText = (yeastCategory === 'ady') ? t.step1_1_ady : t.step1_1_idy;
+            document.getElementById('step2_2').innerText = (saltType === 'kosher') ? t.step2_2_kosher : t.step2_2_fine;
 
-            if(saltType === 'kosher') {
-                document.getElementById('step2_2').innerText = t.step2_2_kosher;
-            } else {
-                document.getElementById('step2_2').innerText = t.step2_2_fine;
-            }
-
-            // Temp Conversion
-            let tempStr = currentTemp === 'C' ? "18°C-20°C" : "64°F-68°F";
-            let mixStr = currentLang === 'en' 
-                ? `2. Ferment in a sealed container for 16-18 hours at ${tempStr}.`
-                : `2. Fermentar en un recipiente sellado durante 16-18 horas a ${tempStr}.`;
-            document.getElementById('step1_2').innerText = mixStr;
+            // Temperature String
+            let tempRange = currentTemp === 'C' ? "18°C-20°C" : "64°F-68°F";
+            document.getElementById('step1_2').innerText = currentLang === 'en' 
+                ? `2. Ferment in a sealed container for 16-18 hours at ${tempRange}.`
+                : `2. Fermentar en un recipiente sellado durante 16-18 horas a ${tempRange}.`;
             
-            let step2_1_str = currentLang === 'en'
-                ? `1. Add biga to mixer. Add roughly half the remaining water (${(finalWater/2).toFixed(0)}g). Mix on low for 5 mins.`
-                : `1. Agregue la biga a la batidora. Agregue aprox la mitad del agua restante (${(finalWater/2).toFixed(0)}g). Mezcle a velocidad baja por 5 min.`;
-            document.getElementById('step2_1').innerText = step2_1_str;
+            // Final Water Steps
+            let w1 = (finalWater/2).toFixed(0);
+            document.getElementById('step2_1').innerText = currentLang === 'en'
+                ? `1. Add biga to mixer. Add roughly half the remaining ICE COLD water (${w1}g). Mix on low for 5 mins.`
+                : `1. Agregue la biga a la batidora. Agregue aprox la mitad del AGUA HELADA restante (${w1}g). Mezcle a velocidad baja por 5 min.`;
+            
+            document.getElementById('step2_3').innerText = currentLang === 'en'
+                ? `3. Bassinnage: Slowly drizzle the remaining ${w1}g of ICE COLD water over 10 minutes until absorbed.`
+                : `3. Bassinnage: Rocíe lentamente los últimos ${w1}g de AGUA HELADA durante 10 minutos hasta que se absorba.`;
         }
 
-        // Init
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js').then(() => console.log('Offline Ready'));
+        }
+
         applyText();
         calculate();
     </script>
-<script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js').then(() => console.log('Offline Ready'));
-    }
-</script>
 </body>
 </html>
