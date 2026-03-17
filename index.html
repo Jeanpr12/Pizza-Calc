@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizza Engineer App</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/192px-Eq_it-na_pizza-margherita_sep2005_sml.jpg">
     <style>
         body { font-family: -apple-system, sans-serif; padding: 15px; max-width: 600px; margin: auto; background-color: #f4f4f9; color: #333; }
         .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px; }
@@ -210,5 +212,10 @@
         applyText();
         calculate();
     </script>
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').then(() => console.log('Offline Ready'));
+    }
+</script>
 </body>
 </html>
