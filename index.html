@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Pizza Engineer PWA</title>
+    
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/192px-Eq_it-na_pizza-margherita_sep2005_sml.jpg">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="apple-touch-icon.png">
     
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -17,6 +19,7 @@
             --surface: #FFFFFF;
             --accent: #007AFF;
             --accent-glow: rgba(0, 122, 255, 0.15);
+            --danger: #FF3B30;
             --text-primary: #1C1C1E;
             --text-muted: #8E8E93;
             --border: #E5E5EA;
@@ -68,6 +71,12 @@
             color: #FFFFFF; 
             border-color: var(--accent);
             box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        button.danger-btn {
+            background: var(--surface);
+            color: var(--danger);
+            border-color: var(--danger);
         }
 
         label { 
@@ -155,6 +164,12 @@
             border: 1px solid var(--border);
         }
         .step strong { color: var(--text-primary); font-weight: 700; }
+        
+        .action-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 <body>
@@ -168,7 +183,10 @@
 
     <div class="card">
         <h3 id="hdrSaved">Saved Recipes</h3>
-        <button id="btnSave" class="action-btn" onclick="saveRecipe()" style="margin-bottom: 12px; width: 100%;">Save Current Settings</button>
+        <div class="action-row">
+            <button id="btnSave" class="action-btn" onclick="saveRecipe()" style="flex: 2;">Save Settings</button>
+            <button id="btnClear" class="danger-btn" onclick="clearHistory()" style="flex: 1;">Clear</button>
+        </div>
         <select id="savedRecipesDropdown" onchange="loadRecipe()">
             <option value="">-- Select a saved recipe --</option>
         </select>
@@ -231,7 +249,7 @@
 
         const dict = {
             en: {
-                hdrSaved: "Saved Recipes", btnSave: "Save Current Settings", txtSelectSaved: "-- Select a saved recipe --",
+                hdrSaved: "Saved Recipes", btnSave: "Save Settings", btnClear: "Clear", txtSelectSaved: "-- Select a saved recipe --",
                 lblFlour: "Total Flour (g):", lblFlourType: "Flour Profile:", lblSaltType: "Salt Type:", lblYeastType: "Yeast Type:",
                 hdrFormula: "Total Formula", txtFlour: "Flour:", txtWater: "Total Water:", txtSalt: "Salt (3%):", txtYeast: "Yeast:",
                 hdrDay1: "Day 1: Biga Phase", txtIng1: "Ingredients:", txtFlourBiga: "Flour", txtWaterBiga: "Water (Room Temp)", txtYeastBiga: "Yeast",
@@ -244,7 +262,7 @@
                 step2_5: "5. Divide into portions (275g), shape tightly, and proof 4-6 hours at room temp before baking."
             },
             es: {
-                hdrSaved: "Recetas Guardadas", btnSave: "Guardar Configuración", txtSelectSaved: "-- Seleccione una receta --",
+                hdrSaved: "Recetas Guardadas", btnSave: "Guardar", btnClear: "Borrar", txtSelectSaved: "-- Seleccione una receta --",
                 lblFlour: "Harina Total (g):", lblFlourType: "Perfil de Harina:", lblSaltType: "Tipo de Sal:", lblYeastType: "Tipo de Levadura:",
                 hdrFormula: "Fórmula Total", txtFlour: "Harina:", txtWater: "Agua Total:", txtSalt: "Sal (3%):", txtYeast: "Levadura:",
                 hdrDay1: "Día 1: Fase Biga", txtIng1: "Ingredientes:", txtFlourBiga: "Harina", txtWaterBiga: "Agua (Temp Amb)", txtYeastBiga: "Levadura",
@@ -258,7 +276,6 @@
             }
         };
 
-        // --- NEW LOCALSTORAGE LOGIC --- //
         function saveRecipe() {
             const recipe = {
                 id: Date.now(),
@@ -272,16 +289,15 @@
             };
             
             let saved = JSON.parse(localStorage.getItem('pizzaEngineerSaved')) || [];
-            saved.unshift(recipe); // Add to the top of the list
+            saved.unshift(recipe);
             localStorage.setItem('pizzaEngineerSaved', JSON.stringify(saved));
             
             updateDropdown();
             
-            // Visual feedback
             const btn = document.getElementById('btnSave');
-            const originalText = btn.innerText;
+            const originalText = dict[currentLang].btnSave;
             btn.innerText = currentLang === 'en' ? "Saved ✓" : "Guardado ✓";
-            btn.style.backgroundColor = "#34C759"; // iOS Green
+            btn.style.backgroundColor = "#34C759";
             btn.style.borderColor = "#34C759";
             
             setTimeout(() => {
@@ -289,6 +305,14 @@
                 btn.style.backgroundColor = "var(--accent)";
                 btn.style.borderColor = "var(--accent)";
             }, 2000);
+        }
+
+        function clearHistory() {
+            const confirmMsg = currentLang === 'en' ? "Clear all saved recipes?" : "¿Borrar todas las recetas guardadas?";
+            if(confirm(confirmMsg)) {
+                localStorage.removeItem('pizzaEngineerSaved');
+                updateDropdown();
+            }
         }
 
         function updateDropdown() {
@@ -323,18 +347,16 @@
                 setTemp(recipe.temp);
                 calculate();
                 
-                // Reset dropdown back to default prompt
                 document.getElementById('savedRecipesDropdown').value = "";
             }
         }
-        // ----------------------------- //
 
         function setLang(lang) {
             currentLang = lang;
             document.getElementById('btnEN').className = lang === 'en' ? 'active' : '';
             document.getElementById('btnES').className = lang === 'es' ? 'active' : '';
             applyText();
-            updateDropdown(); // Update dropdown language
+            updateDropdown();
             calculate();
         }
 
@@ -368,7 +390,6 @@
             let bigaWater = flour * 0.45;
             let finalWater = totalWater - bigaWater;
             
-            // Values
             document.getElementById('outFlour').innerText = flour.toFixed(0) + "g";
             document.getElementById('outWater').innerText = totalWater.toFixed(0) + "g";
             document.getElementById('outSalt').innerText = salt.toFixed(1) + "g";
@@ -379,17 +400,14 @@
             document.getElementById('finalWater').innerText = finalWater.toFixed(0);
             document.getElementById('finalSalt').innerText = salt.toFixed(1);
 
-            // Dynamic Step Logic
             document.getElementById('step1_1').innerText = (yeastCategory === 'ady') ? t.step1_1_ady : t.step1_1_idy;
             document.getElementById('step2_2').innerText = (saltType === 'kosher') ? t.step2_2_kosher : t.step2_2_fine;
 
-            // Temperature String
             let tempRange = currentTemp === 'C' ? "18°C-20°C" : "64°F-68°F";
             document.getElementById('step1_2').innerText = currentLang === 'en' 
                 ? `2. Ferment in a sealed container for 16-18 hours at ${tempRange}.`
                 : `2. Fermentar en un recipiente sellado durante 16-18 horas a ${tempRange}.`;
             
-            // Final Water Steps
             let w1 = (finalWater/2).toFixed(0);
             document.getElementById('step2_1').innerText = currentLang === 'en'
                 ? `1. Add biga to mixer. Add roughly half the remaining ICE COLD water (${w1}g). Mix on low for 5 mins.`
@@ -404,7 +422,6 @@
             navigator.serviceWorker.register('./sw.js').then(() => console.log('Offline Ready'));
         }
 
-        // Initialize App
         applyText();
         updateDropdown();
         calculate();
