@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canotto Pizza Calculator</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; background-color: #f4f4f9; color: #333; }
+        h1, h2 { color: #222; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        label { font-weight: bold; display: block; margin-top: 10px; }
+        input, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; box-sizing: border-box; }
+        .result-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+        .result-row:last-child { border-bottom: none; }
+        .step { margin-bottom: 15px; line-height: 1.5; }
+    </style>
+</head>
+<body>
+
+    <h1>Pizza Engineer</h1>
+    
+    <div class="card">
+        <label for="flourAmount">Total Flour (grams):</label>
+        <input type="number" id="flourAmount" value="1000" oninput="calculate()">
+
+        <label for="flourType">Flour Profile:</label>
+        <select id="flourType" onchange="calculate()">
+            <option value="0.70">Caputo Nuvola (70% Hydration)</option>
+            <option value="0.65">Caputo 00 Chef/Red (65% Hydration)</option>
+            <option value="0.60">Caputo 00 Pizzeria (60% Hydration)</option>
+            <option value="0.60">King Arthur 00 (60% Hydration)</option>
+        </select>
+    </div>
+
+    <div class="card">
+        <h2>Total Formula</h2>
+        <div class="result-row"><span>Flour:</span> <span id="outFlour">1000g</span></div>
+        <div class="result-row"><span>Total Water:</span> <span id="outWater">700g</span></div>
+        <div class="result-row"><span>Sea Salt (3%):</span> <span id="outSalt">30g</span></div>
+        <div class="result-row"><span>Instant Yeast (0.15%):</span> <span id="outYeast">1.5g</span></div>
+    </div>
+
+    <div class="card">
+        <h2>Day 1: Biga Phase</h2>
+        <div class="step"><strong>Ingredients:</strong> <span id="bigaFlour">1000</span>g Flour, <span id="bigaWater">450</span>g Water, <span id="bigaYeast">1.5</span>g Yeast.</div>
+        <div class="step">1. Mix until dry, shaggy clumps form. Do not knead into a ball.</div>
+        <div class="step">2. Ferment in a sealed container for 16-18 hours at 18°C-20°C.</div>
+    </div>
+
+    <div class="card">
+        <h2>Day 2: Final Dough Integration</h2>
+        <div class="step"><strong>Ingredients:</strong> Fermented Biga, <span id="finalWater">250</span>g Cold Water, <span id="finalSalt">30</span>g Salt.</div>
+        <div class="step">1. Add biga to mixer. Add roughly half the remaining water (<span id="waterPart1">125</span>g). Mix on low for 5 mins.</div>
+        <div class="step">2. Add salt and mix on medium-low.</div>
+        <div class="step">3. <i>Bassinnage:</i> Slowly drizzle the final <span id="waterPart2">125</span>g of water over 10 minutes until absorbed.</div>
+        <div class="step">4. Rest bulk dough for 1 hour at room temp.</div>
+        <div class="step">5. Divide into portions, shape into tight balls, and proof for 4-6 hours at room temp before baking.</div>
+    </div>
+
+    <script>
+        function calculate() {
+            let flour = parseFloat(document.getElementById('flourAmount').value) || 0;
+            let hydration = parseFloat(document.getElementById('flourType').value);
+            
+            let totalWater = flour * hydration;
+            let salt = flour * 0.03;
+            let yeast = flour * 0.0015;
+            
+            let bigaWater = flour * 0.45;
+            let finalWater = totalWater - bigaWater;
+            
+            document.getElementById('outFlour').innerText = flour.toFixed(0) + "g";
+            document.getElementById('outWater').innerText = totalWater.toFixed(0) + "g";
+            document.getElementById('outSalt').innerText = salt.toFixed(1) + "g";
+            document.getElementById('outYeast').innerText = yeast.toFixed(2) + "g";
+            
+            document.getElementById('bigaFlour').innerText = flour.toFixed(0);
+            document.getElementById('bigaWater').innerText = bigaWater.toFixed(0);
+            document.getElementById('bigaYeast').innerText = yeast.toFixed(2);
+            
+            document.getElementById('finalWater').innerText = finalWater.toFixed(0);
+            document.getElementById('finalSalt').innerText = salt.toFixed(1);
+            
+            document.getElementById('waterPart1').innerText = (finalWater / 2).toFixed(0);
+            document.getElementById('waterPart2').innerText = (finalWater / 2).toFixed(0);
+        }
+        calculate();
+    </script>
+</body>
+</html>
