@@ -2,37 +2,181 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Pizza Engineer PWA</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/192px-Eq_it-na_pizza-margherita_sep2005_sml.jpg">
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#F2F2F7">
+
     <style>
-        body { font-family: -apple-system, sans-serif; padding: 15px; max-width: 600px; margin: auto; background-color: #f4f4f9; color: #333; }
-        .card { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px; }
-        .controls { display: flex; gap: 10px; margin-bottom: 15px; }
-        button { flex: 1; padding: 10px; cursor: pointer; border: 1px solid #ccc; border-radius: 5px; background: #e9ecef; font-weight: bold; }
-        button.active { background: #007bff; color: white; border-color: #007bff; }
-        label { font-weight: bold; display: block; margin-top: 10px; font-size: 14px; }
-        select, input { width: 100%; padding: 10px; margin-top: 4px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 16px; }
-        .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 15px; }
+        :root {
+            --bg: #F2F2F7;
+            --surface: #FFFFFF;
+            --accent: #007AFF;
+            --accent-glow: rgba(0, 122, 255, 0.15);
+            --text-primary: #1C1C1E;
+            --text-muted: #8E8E93;
+            --border: #E5E5EA;
+            --step-bg: #F9FAFB;
+        }
+
+        body { 
+            font-family: system-ui, -apple-system, sans-serif; 
+            padding: 20px 16px 40px; 
+            max-width: 600px; 
+            margin: auto; 
+            background-color: var(--bg); 
+            color: var(--text-primary); 
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .card { 
+            background: var(--surface); 
+            padding: 20px; 
+            border-radius: 24px; 
+            margin-bottom: 16px; 
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+        }
+
+        .controls { 
+            display: flex; 
+            gap: 12px; 
+            margin-bottom: 24px; 
+        }
+        
+        button { 
+            flex: 1; 
+            padding: 14px; 
+            cursor: pointer; 
+            border: 1px solid var(--border); 
+            border-radius: 100px; 
+            background: var(--surface); 
+            font-weight: 700; 
+            font-size: 14px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+        }
+        
+        button.active, button.action-btn { 
+            background: var(--accent); 
+            color: #FFFFFF; 
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        label { 
+            font-weight: 600; 
+            display: block; 
+            margin-top: 20px; 
+            font-size: 13px; 
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        label:first-child { margin-top: 0; }
+        
+        select, input { 
+            width: 100%; 
+            padding: 16px; 
+            margin-top: 8px; 
+            border: 1px solid var(--border); 
+            border-radius: 16px; 
+            box-sizing: border-box; 
+            font-size: 18px; 
+            font-weight: 600;
+            background-color: var(--step-bg);
+            color: var(--text-primary);
+            appearance: none;
+            -webkit-appearance: none;
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background-color: var(--surface);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        select {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23007AFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        h3 { 
+            margin-top: 0; 
+            color: var(--text-primary); 
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3::before {
+            content: '';
+            display: block;
+            width: 12px;
+            height: 12px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        .row { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 14px 0; 
+            border-bottom: 1px solid var(--border); 
+            font-size: 16px; 
+            font-weight: 500;
+        }
         .row:last-child { border-bottom: none; }
-        .step { margin-bottom: 12px; font-size: 14px; line-height: 1.5; color: #444; }
-        h3 { margin-top: 0; color: #222; border-left: 4px solid #007bff; padding-left: 10px; }
-        .temp-val { color: #007bff; font-weight: bold; }
+        .row span:last-child { color: var(--accent); font-weight: 800; font-size: 18px; }
+
+        .step { 
+            margin-bottom: 12px; 
+            font-size: 15px; 
+            line-height: 1.6; 
+            color: #3A3A3C; 
+            background: var(--step-bg);
+            padding: 16px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+        .step strong { color: var(--text-primary); font-weight: 700; }
     </style>
 </head>
 <body>
 
     <div class="controls">
-        <button id="btnEN" class="active" onclick="setLang('en')">English</button>
-        <button id="btnES" onclick="setLang('es')">Español</button>
+        <button id="btnEN" class="active" onclick="setLang('en')">ENG</button>
+        <button id="btnES" onclick="setLang('es')">ESP</button>
         <button id="btnC" class="active" onclick="setTemp('C')">°C</button>
         <button id="btnF" onclick="setTemp('F')">°F</button>
+    </div>
+
+    <div class="card">
+        <h3 id="hdrSaved">Saved Recipes</h3>
+        <button id="btnSave" class="action-btn" onclick="saveRecipe()" style="margin-bottom: 12px; width: 100%;">Save Current Settings</button>
+        <select id="savedRecipesDropdown" onchange="loadRecipe()">
+            <option value="">-- Select a saved recipe --</option>
+        </select>
     </div>
     
     <div class="card">
         <label id="lblFlour" for="flourAmount">Total Flour (g):</label>
-        <input type="number" id="flourAmount" value="1000" oninput="calculate()">
+        <input type="number" id="flourAmount" value="1000" oninput="calculate()" inputmode="numeric">
 
         <label id="lblFlourType" for="flourType">Flour Profile:</label>
         <select id="flourType" onchange="calculate()">
@@ -87,6 +231,7 @@
 
         const dict = {
             en: {
+                hdrSaved: "Saved Recipes", btnSave: "Save Current Settings", txtSelectSaved: "-- Select a saved recipe --",
                 lblFlour: "Total Flour (g):", lblFlourType: "Flour Profile:", lblSaltType: "Salt Type:", lblYeastType: "Yeast Type:",
                 hdrFormula: "Total Formula", txtFlour: "Flour:", txtWater: "Total Water:", txtSalt: "Salt (3%):", txtYeast: "Yeast:",
                 hdrDay1: "Day 1: Biga Phase", txtIng1: "Ingredients:", txtFlourBiga: "Flour", txtWaterBiga: "Water (Room Temp)", txtYeastBiga: "Yeast",
@@ -99,6 +244,7 @@
                 step2_5: "5. Divide into portions (275g), shape tightly, and proof 4-6 hours at room temp before baking."
             },
             es: {
+                hdrSaved: "Recetas Guardadas", btnSave: "Guardar Configuración", txtSelectSaved: "-- Seleccione una receta --",
                 lblFlour: "Harina Total (g):", lblFlourType: "Perfil de Harina:", lblSaltType: "Tipo de Sal:", lblYeastType: "Tipo de Levadura:",
                 hdrFormula: "Fórmula Total", txtFlour: "Harina:", txtWater: "Agua Total:", txtSalt: "Sal (3%):", txtYeast: "Levadura:",
                 hdrDay1: "Día 1: Fase Biga", txtIng1: "Ingredientes:", txtFlourBiga: "Harina", txtWaterBiga: "Agua (Temp Amb)", txtYeastBiga: "Levadura",
@@ -112,11 +258,83 @@
             }
         };
 
+        // --- NEW LOCALSTORAGE LOGIC --- //
+        function saveRecipe() {
+            const recipe = {
+                id: Date.now(),
+                date: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                flour: document.getElementById('flourAmount').value,
+                flourType: document.getElementById('flourType').value,
+                saltType: document.getElementById('saltType').value,
+                yeastType: document.getElementById('yeastType').value,
+                lang: currentLang,
+                temp: currentTemp
+            };
+            
+            let saved = JSON.parse(localStorage.getItem('pizzaEngineerSaved')) || [];
+            saved.unshift(recipe); // Add to the top of the list
+            localStorage.setItem('pizzaEngineerSaved', JSON.stringify(saved));
+            
+            updateDropdown();
+            
+            // Visual feedback
+            const btn = document.getElementById('btnSave');
+            const originalText = btn.innerText;
+            btn.innerText = currentLang === 'en' ? "Saved ✓" : "Guardado ✓";
+            btn.style.backgroundColor = "#34C759"; // iOS Green
+            btn.style.borderColor = "#34C759";
+            
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.backgroundColor = "var(--accent)";
+                btn.style.borderColor = "var(--accent)";
+            }, 2000);
+        }
+
+        function updateDropdown() {
+            const dropdown = document.getElementById('savedRecipesDropdown');
+            const defaultText = dict[currentLang].txtSelectSaved;
+            
+            dropdown.innerHTML = `<option value="">${defaultText}</option>`;
+            let saved = JSON.parse(localStorage.getItem('pizzaEngineerSaved')) || [];
+            
+            saved.forEach(r => {
+                let opt = document.createElement('option');
+                opt.value = r.id;
+                opt.innerText = `${r.flour}g Flour - ${r.date}`;
+                dropdown.appendChild(opt);
+            });
+        }
+
+        function loadRecipe() {
+            const id = document.getElementById('savedRecipesDropdown').value;
+            if (!id) return;
+
+            let saved = JSON.parse(localStorage.getItem('pizzaEngineerSaved')) || [];
+            let recipe = saved.find(r => r.id == id);
+            
+            if (recipe) {
+                document.getElementById('flourAmount').value = recipe.flour;
+                document.getElementById('flourType').value = recipe.flourType;
+                document.getElementById('saltType').value = recipe.saltType;
+                document.getElementById('yeastType').value = recipe.yeastType;
+                
+                setLang(recipe.lang);
+                setTemp(recipe.temp);
+                calculate();
+                
+                // Reset dropdown back to default prompt
+                document.getElementById('savedRecipesDropdown').value = "";
+            }
+        }
+        // ----------------------------- //
+
         function setLang(lang) {
             currentLang = lang;
             document.getElementById('btnEN').className = lang === 'en' ? 'active' : '';
             document.getElementById('btnES').className = lang === 'es' ? 'active' : '';
             applyText();
+            updateDropdown(); // Update dropdown language
             calculate();
         }
 
@@ -131,7 +349,7 @@
             const t = dict[currentLang];
             Object.keys(t).forEach(id => {
                 let el = document.getElementById(id);
-                if (el) el.innerText = t[id];
+                if (el && id !== 'txtSelectSaved') el.innerText = t[id];
             });
         }
 
@@ -186,7 +404,9 @@
             navigator.serviceWorker.register('./sw.js').then(() => console.log('Offline Ready'));
         }
 
+        // Initialize App
         applyText();
+        updateDropdown();
         calculate();
     </script>
 </body>
